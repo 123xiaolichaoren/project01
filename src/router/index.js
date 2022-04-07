@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Login from '@/components/Login.vue'
 import Home from '@/components/Home.vue'
-
+import Login from '@/components/Login.vue'
+import Welcome from '@/components/Welcome.vue'
+import Users from '@/components/user/users.vue'
 Vue.use(Router)
 
 const router = new Router({
@@ -16,7 +17,17 @@ const router = new Router({
     },
     {
       path: '/home',
-      component: Home
+      component: Home,
+      redirect: '/welcome',
+      children: [{
+          path: '/welcome',
+          component: Welcome
+        },
+        {
+          path: '/users',
+          component: Users
+        }
+      ]
     }
   ]
 })
@@ -34,5 +45,6 @@ router.beforeEach((to, from, next) => {
   if (!tokenStr) return next('/login')
   next()
 })
+
 
 export default router
